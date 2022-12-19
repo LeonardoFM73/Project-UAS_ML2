@@ -1,10 +1,11 @@
-import numpy as np 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
-from tensorflow import keras
+tf.get_logger().setLevel('INFO')
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from sklearn.preprocessing import LabelEncoder
 import preparation
+
 
 vocab_size = 1000
 embedding_dim = 16

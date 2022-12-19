@@ -4,6 +4,11 @@ import Tokenization
 import preparation
 import numpy as np
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import tensorflow as tf
+tf.get_logger().setLevel('INFO')
+
 model = Sequential()
 model.add(Embedding(Tokenization.vocab_size, Tokenization.embedding_dim, input_length=Tokenization.max_len))
 model.add(GlobalAveragePooling1D())
@@ -15,7 +20,7 @@ model.compile(loss='sparse_categorical_crossentropy',
               optimizer='adam', metrics=['accuracy'])
 
 model.summary()
-epochs = 500
+epochs = 1000
 history = model.fit(Tokenization.padded_sequences, np.array(preparation.training_labels), epochs=epochs)
 
 # to save the trained model

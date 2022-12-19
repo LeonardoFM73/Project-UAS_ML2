@@ -1,13 +1,18 @@
 import json 
 import numpy as np
+from datetime import datetime
+
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 from tensorflow import keras
-from sklearn.preprocessing import LabelEncoder
+import tensorflow as tf
+tf.get_logger().setLevel('INFO')
 
 import colorama 
 colorama.init()
-from colorama import Fore, Style, Back
+from colorama import Fore, Style
 
-import random
 import pickle
 
 import warnings
@@ -36,7 +41,7 @@ def chat():
     while True:
         print(Fore.LIGHTBLUE_EX + "User: " + Style.RESET_ALL, end="")
         inp = input()
-        if inp.lower() == "quit":
+        if inp.lower() == "keluar":
             break
 
         result = model.predict(keras.preprocessing.sequence.pad_sequences(tokenizer.texts_to_sequences([inp]),
@@ -46,8 +51,12 @@ def chat():
         for i in data['intents']:
             if i['tag'] == tag:
                 print(Fore.GREEN + "ChatBot:" + Style.RESET_ALL , np.random.choice(i['responses']))
+                if i['tag'] == "Jadwal":
+                    print(Fore.GREEN + "ChatBot: https://rumahsakit.unair.ac.id/website/jadwal-praktek-dokter-spesialis-poliklinik-vip-pasien-umum-2/")
+                elif i['tag'] == 'Pendaftaran':
+                    print(Fore.GREEN + "ChatBot: http://apps.rumahsakit.unair.ac.id/perdana/")
 
-        # print(Fore.GREEN + "ChatBot:" + Style.RESET_ALL,random.choice(responses))
 
-print(Fore.YELLOW + "Start messaging with the bot (type quit to stop)!" + Style.RESET_ALL)
+os.system('cls')
+print(Fore.YELLOW + "Mulai mengetik dengan chatbot(ketik keluar untuk berhenti)!" + Style.RESET_ALL)
 chat()
